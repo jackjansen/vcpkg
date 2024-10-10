@@ -39,6 +39,8 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
         #apps            BUILD_apps_3d_rec_framework
 )
 
+message(STATUS "Jack has modified some stuff")
+
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
@@ -49,6 +51,9 @@ vcpkg_cmake_configure(
         -DPCL_BUILD_WITH_QHULL_DYNAMIC_LINKING_WIN32=${PCL_SHARED_LIBS}
         -DPCL_SHARED_LIBS=${PCL_SHARED_LIBS}
         -DPCL_ENABLE_MARCHNATIVE=OFF
+        # xxxjack android trying things
+        -DHAVE_MM_MALLOC_EXITCODE=OFF
+        -DHAVE_POSIX_MEMALIGN_EXITCODE=OFF
         # WITH
         -DWITH_DAVIDSDK=OFF
         -DWITH_DOCS=OFF
