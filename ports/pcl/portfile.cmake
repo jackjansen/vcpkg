@@ -38,8 +38,13 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
         #apps            BUILD_apps_in_hand_scanner
         #apps            BUILD_apps_3d_rec_framework
 )
-
-message(STATUS "Jack has modified some stuff")
+set(EXTRA_ANDROID_OPTIONS "")
+if(CMAKE_SYSTEM_NAME MATCHES Android)
+	set(EXTRA_ANDROID_OPTIONS 
+        -DHAVE_MM_MALLOC_EXITCODE=OFF
+        -DHAVE_POSIX_MEMALIGN_EXITCODE=OFF
+	)
+endif()
 
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
@@ -51,9 +56,6 @@ vcpkg_cmake_configure(
         -DPCL_BUILD_WITH_QHULL_DYNAMIC_LINKING_WIN32=${PCL_SHARED_LIBS}
         -DPCL_SHARED_LIBS=${PCL_SHARED_LIBS}
         -DPCL_ENABLE_MARCHNATIVE=OFF
-        # xxxjack android trying things
-        -DHAVE_MM_MALLOC_EXITCODE=OFF
-        -DHAVE_POSIX_MEMALIGN_EXITCODE=OFF
         # WITH
         -DWITH_DAVIDSDK=OFF
         -DWITH_DOCS=OFF
@@ -66,6 +68,7 @@ vcpkg_cmake_configure(
         -DWITH_RSSDK2=OFF
         # FEATURES
         ${FEATURE_OPTIONS}
+        ${EXTRA_ANDROID_OPTIONS}
     OPTIONS_DEBUG
         -DBUILD_apps=OFF
         -DBUILD_examples=OFF
@@ -73,6 +76,7 @@ vcpkg_cmake_configure(
     MAYBE_UNUSED_VARIABLES
         PCL_BUILD_WITH_FLANN_DYNAMIC_LINKING_WIN32
         PCL_BUILD_WITH_QHULL_DYNAMIC_LINKING_WIN32
+        
 )
 
 if(NOT EXISTS "${CURRENT_INSTALLED_DIR}/lib/pkgconfig/vtk.pc")
