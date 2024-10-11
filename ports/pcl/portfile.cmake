@@ -38,8 +38,10 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
         #apps            BUILD_apps_in_hand_scanner
         #apps            BUILD_apps_3d_rec_framework
 )
+
 set(EXTRA_ANDROID_OPTIONS "")
-if(CMAKE_SYSTEM_NAME MATCHES Android)
+if(VCPKG_TARGET_IS_ANDROID)
+	message(STATUS "Skip configure-time checks for Android")
 	set(EXTRA_ANDROID_OPTIONS 
         -DHAVE_MM_MALLOC_EXITCODE=OFF
         -DHAVE_POSIX_MEMALIGN_EXITCODE=OFF
